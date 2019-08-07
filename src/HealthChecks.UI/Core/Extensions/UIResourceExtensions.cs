@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace HealthChecks.UI.Core
 {
@@ -19,6 +21,14 @@ namespace HealthChecks.UI.Core
             resource.Content = resource.Content
                 .Replace(Keys.HEALTHCHECKSUI_MAIN_UI_API_TARGET, apiPath);
 
+            var clientOptions = JsonConvert.SerializeObject(options.ClientOptions,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+
+            resource.Content = resource.Content
+                .Replace(Keys.HEALTHCHECKSUI_CLIENT_OPTIONS_TARGET, clientOptions);
 
             var webhooksPath = options.UseRelativeWebhookPath ? options.WebhookPath.AsRelativeResource() : options.WebhookPath;
 

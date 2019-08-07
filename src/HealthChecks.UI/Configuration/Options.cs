@@ -15,6 +15,7 @@ namespace HealthChecks.UI.Configuration
         public bool UseRelativeWebhookPath = true;
         public string ResourcesPath { get; set; } = "/ui/resources";
         public bool UseRelativeResourcesPath = true;
+        public ClientOptions ClientOptions { get; set; } = new ClientOptions();
 
         public Options AddCustomStylesheet(string path)
         {
@@ -29,5 +30,12 @@ namespace HealthChecks.UI.Configuration
             
             return this;
         }
+    }
+
+    public class ClientOptions
+    {
+        public int DefaultPollingIntervalSeconds { get; set; } = 10;
+        public int MinimumPollingIntervalSeconds { get; set; } = 1;
+        public bool HidePollingIntervalControl { get; set; }
     }
 }

@@ -43,6 +43,13 @@ body{
     color:green;
     font-weight:bold
 }
+.polling-save{
+    margin-left: 0.5em;
+}
+.polling-save:not(:disabled) {
+    background-color:#0ca34e;
+    color: white;
+}
 .loader{
     color:green;
     text-indent:-9999em;

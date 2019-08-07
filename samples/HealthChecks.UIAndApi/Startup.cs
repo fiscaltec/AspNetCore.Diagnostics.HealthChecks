@@ -81,7 +81,12 @@ namespace HealthChecks.UIAndApi
                 Predicate = _ => true,
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             })
-            .UseHealthChecksUI()
+            .UseHealthChecksUI(o =>
+            {
+                o.ClientOptions.DefaultPollingIntervalSeconds = 5;
+                o.ClientOptions.MinimumPollingIntervalSeconds = 2;
+                // o.ClientOptions.HidePollingIntervalControl = true;
+            })
             .UseMvc();
         }
     }
