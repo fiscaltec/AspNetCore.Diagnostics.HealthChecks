@@ -3,15 +3,17 @@
     <TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
     <!--<TargetFramework>netcoreapp2.2</TargetFramework>-->
     <PackageLicenseUrl>$(PackageLicenseUrl)</PackageLicenseUrl>
-    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-    <Description>HealthChecks.UI Is a ASP.NET Core UI viewer of ASP.NET Core HealthChecks.For more information see https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks</Description>
+    <PackageProjectUrl>https://github.com/fiscaltec/AspNetCore.Diagnostics.HealthChecks/tree/clientRefreshInterval</PackageProjectUrl>
+    <Description>With enhancements to polling interval UI.
+
+HealthChecks.UI Is a ASP.NET Core UI viewer of ASP.NET Core HealthChecks.For more information see https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks</Description>
     <PackageTags>HealthCheck;UI</PackageTags>
     <Version>$(HealthCheckUI)</Version>
     <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
     <Company>$(Company)</Company>
     <Authors>$(Authors)</Authors>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-    <PackageId>AspNetCore.HealthChecks.UI</PackageId>
+    <PackageId>Fiscaltec.AspNetCore.HealthChecks.UI</PackageId>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
