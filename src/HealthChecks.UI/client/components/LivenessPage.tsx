@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { HealthChecksClient } from '../healthChecksClient';
+import { PollingInterval, getConfiguredInterval } from "./PollingInterval";
 import moment from 'moment';
 import { Liveness } from '../typings/models';
 import { LivenessTable } from './LivenessTable';
@@ -9,11 +10,8 @@ const CollapseIcon = require('../../assets/svg/collapse.svg');
 const PlusIcon = require('../../assets/svg/plus.svg');
 const MinusIcon = require('../../assets/svg/minus.svg');
 
-const healthChecksIntervalStorageKey = 'healthchecks-ui-polling';
-
 interface LivenessState {
   error: Nullable<string>;
-  pollingIntervalSetting: string | number;
   livenessData: Array<Liveness>;
 }
 
@@ -30,19 +28,13 @@ export class LivenessPage extends React.Component<
   constructor(props: LivenessProps) {
     super(props);
     this._healthChecksClient = new HealthChecksClient(this.props.endpoint);
-    this.initPolling = this.initPolling.bind(this);
-    this.onPollinIntervalChange = this.onPollinIntervalChange.bind(this);
     this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
 
-    const pollingIntervalSetting =
-      localStorage.getItem(healthChecksIntervalStorageKey) || 10;
-
     this.state = {
       error: '',
-      livenessData: [],
-      pollingIntervalSetting
-    };
+      livenessData: []
+      };
   }
 
   componentDidMount() {
@@ -75,33 +67,11 @@ export class LivenessPage extends React.Component<
     }
   }
 
-  initPolling() {
-    localStorage.setItem(
-      healthChecksIntervalStorageKey,
-      this.state.pollingIntervalSetting.toString()
-    );
-    this._healthChecksClient.startPolling(
-      this.configuredInterval(),
-      this.onPollingElapsed.bind(this)
-    );
-  }
+  initPolling = () => this._healthChecksClient.startPolling(getConfiguredInterval() * 1000, this.onPollingElapsed);
 
-  configuredInterval(): string | number {
-    let configuredInterval =
-      localStorage.getItem(healthChecksIntervalStorageKey) ||
-      this.state.pollingIntervalSetting;
-    return (configuredInterval as any) * 1000;
-  }
-
-  onPollingElapsed() {
+  onPollingElapsed = () => {
     this.setState({ error: '' });
     this.load();
-  }
-
-  onPollinIntervalChange(event: any) {
-    this.setState({
-      pollingIntervalSetting: event.target.value
-    });
   }
 
   componentWillUnmount() {
@@ -142,20 +112,7 @@ export class LivenessPage extends React.Component<
         <header className="hc-liveness__header">
           <h1>Health Checks status</h1>
           <div className="hc-refesh-group">
-            <span>Refresh every</span>
-            <input
-              value={this.state.pollingIntervalSetting}
-              onChange={this.onPollinIntervalChange}
-              type="number"
-              data-oninput="validity.valid && value > 0 ||(value=10)"
-            />
-            <span>seconds</span>
-            <button
-              onClick={this.initPolling}
-              type="button"
-              className="hc-button">
-              Change
-            </button>
+            <PollingInterval onChange={this.initPolling} />
           </div>
         </header>
         <div className="hc-liveness__container">
