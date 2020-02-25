@@ -1,4 +1,5 @@
-﻿using HealthChecks.UI.Configuration;
+using HealthChecks.UI.Client;
+using HealthChecks.UI.Configuration;
 using HealthChecks.UI.Core.Data;
 using HealthChecks.UI.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,10 @@ namespace HealthChecks.UI.Core.Notifications
         }
         public async Task NotifyDown(string name, UIHealthReport report)
         {
-            await Notify(name, report, isHealthy: false);
+            if ((_settings.ShouldNotifyOnDegraded && report.Entries.Values.Any(x => x.Status == UIHealthStatus.Degraded)) || report.Entries.Values.Any(x => x.Status == UIHealthStatus.Unhealthy))
+            {
+            await Notify(name, failure: GetFailedMessageFromContent(report), isHealthy: false, description: GetFailedDescriptionsFromContent(report));
+        }
         }
         public async Task NotifyWakeUp(string name)
         {
