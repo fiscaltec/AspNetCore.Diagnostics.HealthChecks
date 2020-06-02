@@ -1,3 +1,30 @@
-
-dotnet pack src/HealthChecks.UI/HealthChecks.UI.csproj -c Release -o ./artifacts --include-symbols
-dotnet pack src/HealthChecks.UI.Client/HealthChecks.UI.Client.csproj -c Release -o ./artifacts --include-symbols
+pool:
+  vmImage: 'ubuntu-latest'
+  
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/HealthChecks.UI/HealthChecks.UI.csproj'
+    includesymbols: true
+    versioningScheme: 'off' 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/HealthChecks.UI.Core/HealthChecks.UI.Core.csproj'
+    includesymbols: true
+    versioningScheme: 'off' 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/HealthChecks.UI.Client/HealthChecks.UI.Client.csproj'
+    includesymbols: true
+    versioningScheme: 'off' 
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Fiscaltec Nuget'
+    verbosityPush: 'Normal'
+    allowPackageConflicts: true
