@@ -1,0 +1,3 @@
+
+dotnet pack src/HealthChecks.UI/HealthChecks.UI.csproj -c Release -o ./artifacts --include-symbols
+dotnet pack src/HealthChecks.UI.Client/HealthChecks.UI.Client.csproj -c Release -o ./artifacts --include-symbols

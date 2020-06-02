@@ -5,7 +5,7 @@
     <Description>HealthChecks.UI.Core package containing builder and model definitions</Description>
     <PackageTags>HealthCheck;HealthChecks;COre</PackageTags>
     <Version>$(HealthCheckUICore)</Version>
-    <PackageId>AspNetCore.HealthChecks.UI.Core</PackageId>
+    <PackageId>Fiscal.AspNetCore.HealthChecks.UI.Core</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
     <PackageTags>HealthCheck;UI</PackageTags>
     <Version>$(HealthCheckUI)</Version>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-    <PackageId>AspNetCore.HealthChecks.UI</PackageId>
+    <PackageId>Fiscal.AspNetCore.HealthChecks.UI</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
